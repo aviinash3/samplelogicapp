@@ -6,7 +6,9 @@ on:
  push:
    branches:
      - develop
-     
+release:
+    environment:
+        name: DEV     
 stage: Develop
 jobs:
   validate-and-deploy:
@@ -46,7 +48,9 @@ jobs:
     - name: Logout
       run: az logout
 
-stage: Production
+release:
+    environment:
+        name: Prod
 jobs:
   validate-and-deploy:
    runs-on: ubuntu-latest
