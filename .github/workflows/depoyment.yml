@@ -8,7 +8,6 @@ on:
      - develop
 jobs:
   DEV:
-   validate-and-deploy:
    runs-on: ubuntu-latest
    env:
      ENV_RESOURCEGROUP: avinash-test
@@ -46,7 +45,6 @@ jobs:
       run: az logout
 
   Prod:
-   validate-and-deploy:
    runs-on: ubuntu-latest
    env:
      ENV_RESOURCEGROUP: avinash-test
