@@ -1,15 +1,16 @@
 #Name of the GitHub Action
-name: Deploy Logic App
+name: Deploy Logic Multistage
 
 #Set the action on which the workflow will trigger
 on:
  push:
    branches:
      - develop
-release:
-    environment:
-        name: DEV     
-stage: Develop
+dev_deploy:
+  needs: DEV
+  runs-on: ubuntu-latest
+  environment:
+    name: DEV
 jobs:
   validate-and-deploy:
    runs-on: ubuntu-latest
@@ -48,9 +49,11 @@ jobs:
     - name: Logout
       run: az logout
 
-release:
-    environment:
-        name: Prod
+prod_deploy:
+  needs: DEV
+  runs-on: ubuntu-latest
+  environment:
+    name: PROD
 jobs:
   validate-and-deploy:
    runs-on: ubuntu-latest
