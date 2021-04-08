@@ -52,7 +52,11 @@ jobs:
      ENV_RESOURCEGROUPLOCATION: westeurope
 
    steps:
-
+    - name: approved-event
+      uses: taichi/approved-event-action@v1.2.1
+      with:
+    # number of approvals require to be approved.
+          approvals: 2
     #Checkout the repository
     - name: Checkout Repository
       uses: actions/checkout@main
