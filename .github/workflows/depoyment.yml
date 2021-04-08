@@ -45,6 +45,7 @@ jobs:
       run: az logout
 
   Prod:
+   needs: DEV
    runs-on: ubuntu-latest
    env:
      ENV_RESOURCEGROUP: avinash-test
