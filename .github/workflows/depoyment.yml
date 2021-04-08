@@ -1,5 +1,5 @@
 #Name of the GitHub Action
-name: Dev deployment
+name:  Multistage deployment
 
 #Set the action on which the workflow will trigger
 on:
@@ -7,7 +7,8 @@ on:
    branches:
      - develop
 jobs:
-  validate-and-deploy:
+  DEV:
+   validate-and-deploy:
    runs-on: ubuntu-latest
    env:
      ENV_RESOURCEGROUP: avinash-test
@@ -38,6 +39,44 @@ jobs:
     - name: Deploy Logic App
       run: |
        echo "::set-path name=logicappurl::$(az deployment group create -g avinash-test --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/dev.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
+      shell: bash   
+      
+    # Log Out From Azure 
+    - name: Logout
+      run: az logout
+
+  Prod:
+   validate-and-deploy:
+   runs-on: ubuntu-latest
+   env:
+     ENV_RESOURCEGROUP: avinash-test
+     ENV_RESOURCEGROUPLOCATION: westeurope
+
+   steps:
+
+    #Checkout the repository
+    - name: Checkout Repository
+      uses: actions/checkout@main
+
+    #Use the azure provided action to log on to azure using service pricipal
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+    
+    # Create the resource group
+    #- name: Create Resource Group
+    #  run: az group create -n ${{env.ENV_RESOURCEGROUP}} -l ${{env.ENV_RESOURCEGROUPLOCATION}}
+
+    #Validate the  ARM template
+    - name: Validate ARM template
+      run: |
+        az deployment group validate -g ${{env.ENV_RESOURCEGROUP}} --mode Incremental --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/Prod.parameters.json
+    
+    #Deploy the ARM Template
+    - name: Deploy Logic App
+      run: |
+       echo "::set-path name=logicappurl::$(az deployment group create -g avinash-test --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/Prod.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
       shell: bash   
       
     # Log Out From Azure 
