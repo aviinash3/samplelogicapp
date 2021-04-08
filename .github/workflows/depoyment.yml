@@ -47,6 +47,8 @@ jobs:
   Prod:
    needs: DEV
    runs-on: ubuntu-latest
+   environment:
+      name: Prod
    env:
      ENV_RESOURCEGROUP: avinash-test
      ENV_RESOURCEGROUPLOCATION: westeurope
