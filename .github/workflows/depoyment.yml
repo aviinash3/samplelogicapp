@@ -46,7 +46,7 @@ jobs:
    runs-on: ubuntu-latest
    environment:
       name: Prod
-      url: ${{ steps.deploy_Prod.outputs.webapp-url }}
+      url: ${{ steps.deploy_Prod.outputs.logicappurl }}
    env:
      ENV_RESOURCEGROUP: avinash-test
      ENV_RESOURCEGROUPLOCATION: westeurope
