@@ -6,16 +6,15 @@ on:
  push:
    branches:
      - staging
+jobs:
   Prod:
-   needs: DEV
    runs-on: ubuntu-latest
-   environment:
-      name: Prod
    env:
      ENV_RESOURCEGROUP: avinash-test
      ENV_RESOURCEGROUPLOCATION: westeurope
 
    steps:
+
     #Checkout the repository
     - name: Checkout Repository
       uses: actions/checkout@main
@@ -35,7 +34,7 @@ on:
     #Deploy the ARM Template
     - name: Deploy Logic App
       run: |
-       echo "::set-path name=logicappurl::$(az deployment group create -g avinash-test --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/Prod.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
+       echo "::set-path name=logicappurl::$(az deployment group create -g avinash-test --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/Pev.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
       shell: bash   
       
     # Log Out From Azure 
