@@ -79,6 +79,7 @@
       "name": "[parameters('LogicAppName')]",
       "type": "Microsoft.Logic/workflows",
       "location": "[parameters('LogicAppLocation')]",
+      "testenv": "[parameters('Envfromgithub')]",
       "tags": {
         "displayName": "LogicApp"
       },
