@@ -29,12 +29,12 @@ jobs:
     #Validate the  ARM template
     - name: Validate ARM template
       run: |
-        az deployment group validate -g ${{env.ENV_RESOURCEGROUP}} --mode Incremental --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/dev.parameters.json
+        az deployment group validate -g ${{env.ENV_RESOURCEGROUP}} --mode Incremental --template-file ./azure-logic-app/logicapp.deploy.json --parameters ./azure-logic-app/dev.parameters.json
     
     #Deploy the ARM Template
     - name: Deploy Logic App
       run: |
-       echo "::set-path name=logicappurl::$(az deployment group create -g avinash-test --template-file ./src/Deployment/logicapp.deploy.json --parameters ./src/Deployment/dev.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
+       echo "::set-path name=logicappurl::$(az deployment group create -g avinash-test --template-file ./azure-logic-app/logicapp.deploy.json --parameters ./azure-logic-app/dev.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
       shell: bash   
       
     # Log Out From Azure 
